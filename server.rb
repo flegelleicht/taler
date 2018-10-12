@@ -4,13 +4,17 @@ require 'json'
 require 'jwt'
 require_relative './lib/jwt_auth'
 
-class Taler < Sinatra::Base
+class Server < Sinatra::Base
   configure :development do
     require 'sinatra/reloader'
     register Sinatra::Reloader
   end
   
   configure do
+    set :port, 4567
+    set :bind, "0.0.0.0"
+    set :server, :thin
+    
     set :db, Sequel.sqlite('db/database')
     require_relative './db/models/user'
 		require_relative './db/models/budget'
