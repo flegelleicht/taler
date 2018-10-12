@@ -7,7 +7,7 @@ Sequel.migration do
       FalseClass :deleted, default: false
       
       String :login, unique: true
-      String :passwd, null: false
+      String :pass, null: false
       String :salt, null: false
       String :name
     end
