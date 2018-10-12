@@ -2,4 +2,5 @@
 /Gemfile.lock
 /db/database
 /scripts/test_api.sh
+/start.sh
 
