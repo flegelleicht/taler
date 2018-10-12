@@ -1,2 +1,2 @@
-require_relative "./server.rb"
-run Taler
+require_relative "./server"
+run Server
