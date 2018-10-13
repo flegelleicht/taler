@@ -12,4 +12,17 @@ class Budget < Sequel::Model
   def before_update
     self.modified = Time.now
   end
+  
+  def to_api
+    {
+      id: self.id,
+      created: self.created,
+      name: self.name,
+      type: self.type,
+      start: self.start,
+      end: self.end,
+      currency: self.currency,
+      amount: self.amount
+    }
+  end
 end
