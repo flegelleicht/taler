@@ -7,7 +7,7 @@ function handleErrors(response) {
   return response;
 }
 
-export class LoginListener {
+export default class LoginListener {
   constructor(store) {
     this.store = null
     this.unsubscribe = null;
@@ -38,5 +38,3 @@ export class LoginListener {
     }
   }
 }
-
-export default LoginListener;
