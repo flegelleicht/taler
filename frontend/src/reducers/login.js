@@ -7,6 +7,7 @@ import {
 const initialState = {
   loading: false,
   token: null,
+  loggedIn: false,
   user: null,
   failure: null,
   credentials: null
@@ -24,6 +25,7 @@ const login = (state = initialState, action) => {
     return {
       ...state,
       loading: false,
+      loggedIn: true,
       token: action.payload.token,
       user: action.payload.user,
       credentials: null
