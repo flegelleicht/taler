@@ -11,16 +11,45 @@ class Budgets extends React.Component {
     const budgets = this.props.budgets.map(
       b => <li key={b.id} onClick={()=>this.props.dispatch(selectBudget(b.id))}>{b.name}</li>
     );
+    
+    let selectedBudget = null;
+    let entries = null;
+    if (this.props.selectedBudgetId) {
+      selectedBudget = this.props.budgets.find(b => b.id === this.props.selectedBudgetId);
+      entries = selectedBudget.entries.map(
+        e =>  <li key={e.id}>
+                <span className={e.type}></span>
+                <span className="amount">
+                {Number.parseFloat(e.amount / 100.0).toFixed(2)} 
+                </span>
+                <span className="note">{e.note}</span>
+              </li>
+      );
+    }
     return(
-      <ul>
-        {budgets}
-      </ul>
+      <React.Fragment>
+        <h2>Budgets:</h2>
+        <ul>
+          {budgets}
+        </ul>
+        { selectedBudget ?
+          <React.Fragment>
+          <h3>{selectedBudget.name}</h3>
+          <ul>
+            {entries}
+          </ul>
+          </React.Fragment>
+        :
+          null
+        }
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  budgets: state.data.budgets
+  budgets: state.data.budgets,
+  selectedBudgetId: state.ui.selectedBudgetId
 });
 
 
