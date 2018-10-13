@@ -40,27 +40,18 @@ class Budget extends React.Component {
         </div>
         <h3>{selectedBudget.name}</h3>
         <div>
-          <div id="total">insgesamt: {formatMoney(selectedBudget.amount)}</div>
-          <label htmlFor="remaining-today">heute übrig</label>
+          <div id="total">
+            insgesamt: {formatMoney(selectedBudget.amount)}</div>
           <div id="remaining-today" className="spent-total">
-            {formatMoney(selectedBudget.remainingToday)}
-          </div>
-          <label htmlFor="remaining-tomorrow">morgen übrig</label>
+            heute übrig: {formatMoney(selectedBudget.remainingToday)}</div>
           <div id="remaining-tomorrow" className="spent-total">
-            {formatMoney(selectedBudget.remainingTomorrow)}
-          </div>
-          <label htmlFor="remaining-total">insgesamt übrig</label>
+            morgen übrig: {formatMoney(selectedBudget.remainingTomorrow)}</div>
           <div id="remaining-total" className="spent-total">
-            {formatMoney(selectedBudget.remainingTotal)}
-          </div>
-          <label htmlFor="spent-today">heute ausgegeben</label>
+            insgesamt übrig: {formatMoney(selectedBudget.remainingTotal)}</div>
           <div id="spent-today" className="spent-total">
-            {formatMoney(selectedBudget.spentToday)}
-          </div>
-          <label htmlFor="spent-total">ingesamt ausgegeben</label>
+            heute ausgegeben: {formatMoney(selectedBudget.spentToday)}</div>
           <div id="spent-total" className="spent-total">
-            {formatMoney(selectedBudget.spentTotal)}
-          </div>
+            ingesamt ausgegeben: {formatMoney(selectedBudget.spentTotal)}</div>
         </div>
         <ul>
           {entries}
