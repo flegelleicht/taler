@@ -94,7 +94,21 @@ class Server < Sinatra::Base
       halt 400
     end
   end
-    
+  
+  get '/api/v1/private/budgets/:id' do
+    begin
+      user_id = request.env[:user]['id']
+      user = User.find(id: user_id)
+      budget_id = params['id'].to_i
+      budget = user.budgets.find{|b| b.id == budget_id}
+      
+      content_type :json
+      {budget: budget.to_api}.to_json
+    rescue StandardError => e
+      halt 400, {message: "Error during processing: #{e}"}.to_json
+    end
+  end
+  
   get '/api/v1/private/budgets/:id/entries' do
     begin
       user_id = request.env[:user]['id']
