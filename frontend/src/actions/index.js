@@ -7,9 +7,9 @@ export const loginRequest = credentials => ({
   payload: { credentials }
 });
 
-export const loginSuccess = token => ({
+export const loginSuccess = info => ({
   type: LOGIN_SUCCESS,
-  payload: { token }
+  payload: { token: info.token, user: info.user }
 });
 
 export const loginFailure = error => ({

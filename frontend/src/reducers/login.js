@@ -7,6 +7,7 @@ import {
 const initialState = {
   loading: false,
   token: null,
+  user: null,
   failure: null,
   credentials: null
 }
@@ -17,7 +18,6 @@ const login = (state = initialState, action) => {
     return {
       ...state,
       loading: true,
-      failure: null,
       credentials: action.payload.credentials
     };
   case LOGIN_SUCCESS:
@@ -25,6 +25,7 @@ const login = (state = initialState, action) => {
       ...state,
       loading: false,
       token: action.payload.token,
+      user: action.payload.user,
       credentials: null
     };
   case LOGIN_FAILURE:

@@ -26,13 +26,12 @@ export class LoginListener {
   onChange() {
     let login = this.store.getState().login;
     if (login && login.loading && login.credentials) {
-      console.log(`Logging in as ${login.credentials.user}!`);
       fetch(`https://localhost:4567/api/v1/public/login`,{
         method: 'POST', body: JSON.stringify(login.credentials)})
         .then(handleErrors)
         .then(res => res.json())
         .then(json => {
-          this.store.dispatch(loginSuccess(json.token));
+          this.store.dispatch(loginSuccess({token: json.token, user: json.user}));
           return json.token;
         })
         .catch(error => this.store.dispatch(loginFailure(error)));

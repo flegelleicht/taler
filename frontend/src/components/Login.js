@@ -4,7 +4,7 @@ import { loginRequest } from '../actions';
 
 class Login extends React.Component {
   render () {
-    const { error, loading, token } = this.props;
+    const { error, loading, token, user } = this.props;
     
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -15,7 +15,7 @@ class Login extends React.Component {
     }
     
     if (token) {
-      return <div>Logged in with {token}</div>;
+      return <div>Logged in as { user.name }</div>;
     }
     
     return (
@@ -26,6 +26,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({
   token: state.login.token,
+  user: state.login.user,
   loading: state.login.loading,
   error: state.login.error
 });
