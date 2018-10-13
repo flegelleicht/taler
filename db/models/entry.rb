@@ -13,4 +13,15 @@ class Entry < Sequel::Model
   def before_update
     self.modified = Time.now
   end
+
+  def to_api
+    {
+      id: self.id,
+      created: self.created,
+      modified: self.modified,
+      type: self.type,
+      amount: self.amount,
+      note: self.note
+    }
+  end
 end

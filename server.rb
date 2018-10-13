@@ -95,6 +95,20 @@ class Server < Sinatra::Base
     end
   end
     
+  get '/api/v1/private/budgets/:id/entries' do
+    begin
+      user_id = request.env[:user]['id']
+      user = User.find(id: user_id)
+      budget_id = params['id'].to_i
+      budget = user.budgets.find{|b| b.id == budget_id}
+    
+      content_type :json
+      {entries: budget.entries.map{|e| e.to_api}}.to_json
+    rescue
+      halt 400
+    end
+  end
+    
   get '/api/v1/private' do
     user_id = request.env[:user]['id']
     user = User.find(id: user_id)
