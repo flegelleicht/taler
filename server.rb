@@ -78,7 +78,7 @@ class Server < Sinatra::Base
 
     if user and user.authenticate?(passw)
       content_type :json
-      { token: make_token(user) }.to_json
+      { token: make_token(user), user: user.to_hash }.to_json
     else
       halt 401
     end
