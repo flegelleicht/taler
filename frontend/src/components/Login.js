@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login } from '../actions';
+import { loginRequest } from '../actions';
 
 class Login extends React.Component {
   render () {
@@ -19,7 +19,7 @@ class Login extends React.Component {
     }
     
     return (
-      <button onClick={() => this.props.dispatch(login({user: 'flgl', pass: 'PexS27kfzHz2Me0G9oNYTg'}))}>Anmelden</button>
+      <button onClick={() => this.props.dispatch(loginRequest({user: 'flgl', pass: 'PexS27kfzHz2Me0G9oNYTg'}))}>Anmelden</button>
     )
   }
 }
