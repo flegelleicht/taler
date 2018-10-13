@@ -8,6 +8,9 @@ class Entry < Sequel::Model
   def before_create
     self.created = Time.now
     self.modified = self.created
+    if self.at == nil
+      self.at = Time.now
+    end
   end
   
   def before_update
@@ -17,8 +20,9 @@ class Entry < Sequel::Model
   def to_api
     {
       id: self.id,
-      created: self.created,
-      modified: self.modified,
+      created: self.created.utc.iso8601,
+      modified: self.modified.utc.iso8601,
+      at: if self.at then self.at.utc.iso8601 else nil end,
       type: self.type,
       amount: self.amount,
       note: self.note
