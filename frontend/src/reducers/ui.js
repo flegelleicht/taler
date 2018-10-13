@@ -1,5 +1,5 @@
 import {
-  BUDGET_ENTRIES_SUCCESS,
+  BUDGET_SELECT,
   NAVIGATE_TO_BUDGETS
 } from '../actions';
 
@@ -10,10 +10,10 @@ const initialState = {
 
 const ui = (state = initialState, action) => {
   switch (action.type) {
-  case BUDGET_ENTRIES_SUCCESS:
+  case BUDGET_SELECT:
     return {
       ...state,
-      selectedBudgetId: action.payload.budgetId,
+      selectedBudgetId: action.payload.id,
       display: 'budget'
     };
   case NAVIGATE_TO_BUDGETS:
