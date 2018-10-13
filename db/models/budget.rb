@@ -10,7 +10,7 @@ class Budget < Sequel::Model
     self.created = Time.now
     self.modified = self.created
   end
-  
+
   def before_update
     self.modified = Time.now
   end
@@ -32,7 +32,7 @@ class Budget < Sequel::Model
   end
   
   def statistics_in_interval(start_time, now, end_time)
-    entries_in_interval = self.entries.select{ |e| 
+    entries_in_interval = self.entries.select{ |e| e.at != nil &&
       e.at >= start_time && e.at < now
     }
     spent_total = entries_in_interval.reduce(0){|sum, e| sum + e.amount}

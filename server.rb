@@ -122,6 +122,33 @@ class Server < Sinatra::Base
       halt 400
     end
   end
+  
+  post '/api/v1/private/budgets/:id/entries' do
+    require 'pp'
+    pp @jsonBody
+    begin
+      entry = @jsonBody['entry']
+      user_id = request.env[:user]['id']
+      user = User.find(id: user_id)
+      budget_id = params['id'].to_i
+      budget = user.budgets.find{|b| b.id == budget_id}
+      new_entry = Entry.create do |e|
+        e.type = "expense"
+        e.amount = entry['amount'].to_i
+        if entry['at']
+          e.at = Time.parse(entry['at']).getlocal.to_datetime
+        end
+        e.note = entry['note']
+      end
+      budget.add_entry(new_entry)
+    
+      content_type :json
+      {budget: budget.to_api}.to_json
+    rescue StandardError => e
+      halt 400, {message: "Error during processing: #{e}"}.to_json
+    end
+  end
+  
     
   get '/api/v1/private' do
     user_id = request.env[:user]['id']

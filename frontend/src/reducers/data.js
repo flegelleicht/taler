@@ -4,11 +4,16 @@ import {
   BUDGETS_FAILURE,
   BUDGET_ENTRIES_SUCCESS,
   BUDGET_ENTRIES_FAILURE,
+  ADD_ENTRY_TO_BUDGET,
+  ADD_ENTRY_TO_BUDGET_SUCCESS,
+  ADD_ENTRY_TO_BUDGET_FAILURE,
 } from '../actions';
 
 const initialState = {
   loadingBudgets: false,
   loadingEntries: false,
+  addEntry: false,
+  addEntryInfo: null,
   budgetId: null,
   failure: null,
   budgets: []
@@ -57,6 +62,36 @@ const data = (state = initialState, action) => {
       loadingEntries: false,
       budgetId: null,
       error: action.payload.error,
+    };
+  case ADD_ENTRY_TO_BUDGET:
+    return {
+      ...state,
+      addEntry: true,
+      addEntryInfo: action.payload
+    };
+  case ADD_ENTRY_TO_BUDGET_SUCCESS:
+    {
+      let changedBudget = action.payload.budget;
+      let budgets = state.budgets;
+      let index = budgets.findIndex(b => b.id === changedBudget.id);
+      let newBudgets = [
+        ...budgets.slice(0, index), 
+        changedBudget, 
+        ...budgets.slice(index + 1)
+      ];
+
+      return {
+        ...state,
+        addEntry: false,
+        addEntryInfo: null,
+        budgets: newBudgets
+      };
+    }    
+  case ADD_ENTRY_TO_BUDGET_FAILURE:
+    return {
+      ...state,
+      addEntry: false,
+      addEntryInfo: null
     };
   default:
     return state;
