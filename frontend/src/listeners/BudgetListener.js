@@ -2,7 +2,9 @@ import {
   fetchBudgetsSuccess, 
   fetchBudgetsFailure,
   fetchBudgetEntriesSuccess,
-  fetchBudgetEntriesFailure
+  fetchBudgetEntriesFailure,
+  addEntryToBudgetSuccess,
+  addEntryToBudgetFailure
  } from '../actions';
 
 function handleErrors(response) {
@@ -71,6 +73,26 @@ export default class BudgetListener {
         })
         .catch(error => this.store.dispatch(
           fetchBudgetEntriesFailure(error)
+        ));      
+    }
+    
+    else if (state.data.addEntry && state.data.addEntryInfo) {
+      let id = state.data.addEntryInfo.budgetId;
+      let entry = state.data.addEntryInfo.entry;
+      fetch(`https://localhost:4567/api/v1/private/budgets/${id}/entries`,{
+        method: 'POST',
+        headers: {'Authorization': `Bearer ${token}`},
+        body: JSON.stringify({entry: entry})
+      })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(json => {
+          this.store.dispatch(
+            addEntryToBudgetSuccess(json.budget));
+          return json.budget;
+        })
+        .catch(error => this.store.dispatch(
+          addEntryToBudgetFailure(error)
         ));      
     }
   }
