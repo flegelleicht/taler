@@ -64,7 +64,7 @@ class Server < Sinatra::Base
 
   options '*' do
     headers "Allow" => "GET, POST, OPTIONS"
-    headers "Access-Control-Allow-Headers"  => "access-control-allow-origin"
+    headers "Access-Control-Allow-Headers"  => "access-control-allow-origin, authorization"
     headers "Access-Control-Allow-Origin"   => "http://localhost:3000"
     headers "Access-Control-Allow-Methods"  => "all"
     halt 200
@@ -83,7 +83,18 @@ class Server < Sinatra::Base
       halt 401
     end
   end
-  
+
+  get '/api/v1/private/budgets' do
+    user_id = request.env[:user]['id']
+    user = User.find(id: user_id)
+    if user
+      content_type :json
+      {budgets: user.budgets.map{|b| b.to_api}}.to_json
+    else
+      halt 400
+    end
+  end
+    
   get '/api/v1/private' do
     user_id = request.env[:user]['id']
     user = User.find(id: user_id)
