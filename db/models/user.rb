@@ -28,4 +28,12 @@ class User < Sequel::Model
   def authenticate?(password)
     self.pass == BCrypt::Engine.hash_secret(password, self.salt)
   end
+  
+  def to_api
+    {
+      id: self.id,
+      login: self.login,
+      name: self.name
+    }
+  end
 end

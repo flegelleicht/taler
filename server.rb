@@ -44,7 +44,7 @@ class Server < Sinatra::Base
   end
   
   before '*' do
-    headers "Access-Control-Allow-Origin"   => "http://localhost:4567"
+    headers "Access-Control-Allow-Origin"   => "http://localhost:3000"
   end
   
   def make_token(user)
@@ -65,7 +65,7 @@ class Server < Sinatra::Base
   options '*' do
     headers "Allow" => "GET, POST, OPTIONS"
     headers "Access-Control-Allow-Headers"  => "access-control-allow-origin"
-    headers "Access-Control-Allow-Origin"   => "http://localhost:4567"
+    headers "Access-Control-Allow-Origin"   => "http://localhost:3000"
     headers "Access-Control-Allow-Methods"  => "all"
     halt 200
   end
@@ -78,7 +78,7 @@ class Server < Sinatra::Base
 
     if user and user.authenticate?(passw)
       content_type :json
-      { token: make_token(user) }.to_json
+      { token: make_token(user), user: user.to_api }.to_json
     else
       halt 401
     end
