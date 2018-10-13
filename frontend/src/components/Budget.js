@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { 
   navToBudgets,
+  addEntryToBudget
 } from '../actions';
 
 function formatMoney(amount) {
@@ -13,11 +14,15 @@ class BudgetEntry extends React.Component {
     const e = this.props.entry;
     return (
       <li>
-        <span className={e.type}></span>
-        <span className="amount">
+        <div className={e.type}></div>
+        <div className="amount">
           {formatMoney(e.amount)} 
-        </span>
-        <span className="note">{e.note}</span>
+        </div>
+        <div className="at">
+          {(new Date(e.at)).toLocaleDateString("de-DE")}
+          {(new Date(e.at)).toLocaleTimeString("de-DE")}
+        </div>
+        <div className="note">{e.note}</div>
       </li>
     );
   }
