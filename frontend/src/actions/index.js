@@ -6,6 +6,7 @@ export const BUDGETS_REQUEST = 'BUDGETS_REQUEST';
 export const BUDGETS_SUCCESS = 'BUDGETS_SUCCESS';
 export const BUDGETS_FAILURE = 'BUDGETS_FAILURE';
 
+export const BUDGET_SELECT = 'BUDGET_SELECT';
 export const loginRequest = credentials => ({
   type: LOGIN_REQUEST,
   payload: { credentials }
@@ -35,3 +36,7 @@ export const fetchBudgetsFailure = error => ({
   payload: { error }
 });
 
+export const selectBudget = id => ({
+  type: BUDGET_SELECT,
+  payload: { id: id }
+});

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchBudgetsRequest } from '../actions';
+import { fetchBudgetsRequest, selectBudget } from '../actions';
 
 class Budgets extends React.Component {
   componentDidMount() {
@@ -9,7 +9,7 @@ class Budgets extends React.Component {
   
   render() {
     const budgets = this.props.budgets.map(
-      b => <li key={b.id}>{b.name}</li>
+      b => <li key={b.id} onClick={()=>this.props.dispatch(selectBudget(b.id))}>{b.name}</li>
     );
     return(
       <ul>
