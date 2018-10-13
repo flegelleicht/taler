@@ -36,8 +36,6 @@ class Budget < Sequel::Model
       e.at >= start_time && e.at < now
     }
     spent_total = entries_in_interval.reduce(0){|sum, e| sum + e.amount}
-    puts "==> entries_in_interval: #{entries_in_interval.count}"
-    puts "==> spent_total: #{spent_total}"
 
     entries_in_day = entries_in_interval.select{ |e|
       e.at >= start_of_day(end_time) && e.at < now
@@ -56,15 +54,13 @@ class Budget < Sequel::Model
       (self.amount - spent_total) / (remaining_days - 1)
     
     # FIXME: Depends on MONTHLY and does not work for others yet
-    result = {
+    {
       spentTotal: spent_total,
       spentToday: spent_on_day,
       remainingTotal: remaining_total,
       remainingToday: remaining_on_day,
       remainingTomorrow: remaining_daily_afterwards
     }
-    pp result
-    result
   end
   
   def statistics
