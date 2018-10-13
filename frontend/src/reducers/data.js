@@ -2,7 +2,6 @@ import {
   BUDGETS_REQUEST,
   BUDGETS_SUCCESS,
   BUDGETS_FAILURE,
-  BUDGET_SELECT,
   BUDGET_ENTRIES_SUCCESS,
   BUDGET_ENTRIES_FAILURE,
 } from '../actions';
@@ -33,12 +32,6 @@ const data = (state = initialState, action) => {
       ...state,
       loadingBudgets: false,
       error: action.payload.error,
-    };
-  case BUDGET_SELECT:
-    return {
-      ...state,
-      loadingEntries: true,
-      budgetId: action.payload.id
     };
   case BUDGET_ENTRIES_SUCCESS:
     let changedBudgetId = action.payload.budgetId;

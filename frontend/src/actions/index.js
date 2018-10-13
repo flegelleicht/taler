@@ -10,6 +10,8 @@ export const BUDGET_SELECT = 'BUDGET_SELECT';
 export const BUDGET_ENTRIES_SUCCESS = 'BUDGET_ENTRIES_SUCCESS';
 export const BUDGET_ENTRIES_FAILURE = 'BUDGET_ENTRIES_FAILURE';
 
+export const NAVIGATE_TO_BUDGETS = 'NAVIGATE_TO_BUDGETS';
+
 export const loginRequest = credentials => ({
   type: LOGIN_REQUEST,
   payload: { credentials }
@@ -52,4 +54,8 @@ export const fetchBudgetEntriesSuccess = response => ({
 export const fetchBudgetEntriesFailure = error => ({
   type: BUDGET_ENTRIES_FAILURE,
   payload: { error }
+});
+
+export const navToBudgets = () => ({
+  type: NAVIGATE_TO_BUDGETS
 });
