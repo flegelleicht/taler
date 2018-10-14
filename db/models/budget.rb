@@ -111,7 +111,7 @@ class Budget < Sequel::Model
       end: self.end,
       currency: self.currency,
       amount: self.amount,
-      entries: self.entries.map{|e| e.to_api},
+      entries: self.entries.sort{|a,b| a.at <=> b.at}.reverse.map{|e| e.to_api},
       spentTotal: s[:spentTotal],
       spentToday: s[:spentToday],
       remainingTotal: s[:remainingTotal],
