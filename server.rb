@@ -70,7 +70,7 @@ class Server < Sinatra::Base
     headers "Allow" => "GET, POST, PUT, OPTIONS"
     headers "Access-Control-Allow-Headers"  => "access-control-allow-origin, authorization"
     headers "Access-Control-Allow-Origin"   => "http://localhost:3000"
-    headers "Access-Control-Allow-Methods"  => "GET, POST, PUT, OPTIONS"
+    headers "Access-Control-Allow-Methods"  => "GET, POST, PUT, DELETE, OPTIONS"
     halt 200
   end
 
@@ -179,7 +179,27 @@ class Server < Sinatra::Base
       halt 400, {message: "Error during processing: #{e} #{ e.backtrace.last(5)}"}.to_json
     end
   end
+  
+  delete '/api/v1/private/entries/:id' do
+    begin
+      entry_id = params['id'].to_i
+      user_id = request.env[:user]['id']
+      user = User.find(id: user_id)
+      entries = user.budgets.map{|b| b.entries}.flatten
+      entry = entries.find{|e| e.id == entry_id}
+      budget = nil
+      if entry
+        budget_id = entry.budget.id
+        entry.delete
+      end
     
+      content_type :json
+      {budget: Budget[budget_id].to_api}.to_json      
+    rescue StandardError => e
+      halt 400, {message: "Error during processing: #{e} #{ e.backtrace.last(5)}"}.to_json
+    end
+  end
+  
   get '/api/v1/private' do
     user_id = request.env[:user]['id']
     user = User.find(id: user_id)
