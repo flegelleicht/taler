@@ -10,6 +10,7 @@ import {
   UPDATE_ENTRY_IN_BUDGET,
   UPDATE_ENTRY_IN_BUDGET_SUCCESS,
   UPDATE_ENTRY_IN_BUDGET_FAILURE,
+  DELETE_ENTRY,
 } from '../actions';
 
 let savedState = window.localStorage.getItem('state');
@@ -133,6 +134,12 @@ const data = (state = initialState, action) => {
       ...state,
       updateEntry: false,
       updateEntryInfo: null,
+    };
+  case DELETE_ENTRY:
+    return {
+      ...state,
+      deleteEntry: true,
+      deleteEntryInfo: action.payload
     };
   default:
     return state;

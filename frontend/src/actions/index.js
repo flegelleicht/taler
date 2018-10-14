@@ -22,6 +22,7 @@ export const ADD_ENTRY_TO_BUDGET_FAILURE = 'ADD_ENTRY_TO_BUDGET_FAILURE';
 export const UPDATE_ENTRY_IN_BUDGET = 'UPDATE_ENTRY_IN_BUDGET';
 export const UPDATE_ENTRY_IN_BUDGET_SUCCESS = 'UPDATE_ENTRY_IN_BUDGET_SUCCESS';
 export const UPDATE_ENTRY_IN_BUDGET_FAILURE = 'UPDATE_ENTRY_IN_BUDGET_FAILURE';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
 
 export const loginRequest = credentials => ({
   type: LOGIN_REQUEST,
@@ -121,3 +122,9 @@ export const updateEntryInBudgetSuccess = budget => ({
 export const updateEntryInBudgetFailure = () => ({
   type: UPDATE_ENTRY_IN_BUDGET_FAILURE
 });
+
+export const deleteEntry = (id) => ({
+  type: DELETE_ENTRY,
+  payload: { id: id }
+});
+
