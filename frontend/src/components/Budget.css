@@ -6,8 +6,15 @@ h3 {
 	padding: 0.5rem;
 	border-bottom: 1px solid #ddd;
 }
+.budget-display {
+	height: calc(100vh - var(--header-height) - var(--action-height));
+}
+.budget-display-with-enter {
+	height: calc(100vh - var(--header-height) - var(--enter-height));
+}
 .budget-stats {
   width: 100%;
+	height: var(--budget-stats-height);
 	padding-bottom: 1rem;
 	border-bottom: 1px solid #ddd;
 }
@@ -65,3 +72,28 @@ h3 {
 	width: 100%;
 	text-align: right;
 }
+#budget-entry-enter {
+	font-size: 300%;
+	color: #333;
+	background-color: white;
+	padding-bottom: .5em;
+	width:50%;
+	box-shadow: -2px 0px 5px #999, 2px 0px 5px #999;
+}
+#budget-entry-enter-container {
+	height: var(--action-height);
+	position: fixed;
+	width: 100vw;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#budget-entries {
+	height: calc(100% - var(--budget-stats-height));
+	overflow-y: auto;
+}
+

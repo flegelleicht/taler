@@ -30,7 +30,7 @@ class Login extends React.Component {
   }
   
   render () {
-    const { loggedIn, error, loading, user } = this.props;
+    const { loggedIn, error, loading } = this.props;
     
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -64,7 +64,6 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({
   loggedIn: state.login.loggedIn,
-  user: state.login.user,
   loading: state.login.loading,
   error: state.login.error
 });

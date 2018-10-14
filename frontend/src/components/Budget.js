@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { 
-  navToBudgets,
   navToBudgetEnterEntry,
   addEntryToBudget
 } from '../actions';
@@ -55,9 +54,9 @@ class Budget extends React.Component {
       selectedBudget.entries.map(e =>  <BudgetEntry key={e.id} entry={e} />);
       
     return (
-      <React.Fragment>
-        <h3>{selectedBudget.name}</h3>
+			<div className={this.props.screen === 'budget.enter' ? 'budget-display-with-enter' : 'budget-display'}>
         <div className="budget-stats">
+					<h3>{selectedBudget.name}</h3>
 					{renderStat({	
 							key: 'remainingToday', 
 							value: formatMoney(selectedBudget['remainingToday']),
@@ -74,7 +73,7 @@ class Budget extends React.Component {
 					)}
 					{stats}
         </div>
-        <ul>
+        <ul id="budget-entries">
           {entries}
         </ul>
         { this.props.screen === 'budget.enter' ? 
@@ -82,12 +81,14 @@ class Budget extends React.Component {
             budget={selectedBudget}
             onEnter={(entry) => this.props.dispatch(addEntryToBudget({entry, budgetId: selectedBudget.id}))}/>
           :
-          <button 
-            onClick={() => this.props.dispatch(navToBudgetEnterEntry())}>
-            +
-          </button>
+					<div id="budget-entry-enter-container">
+						<button id="budget-entry-enter" 
+							onClick={() => this.props.dispatch(navToBudgetEnterEntry())}>
+							<span>+</span>
+						</button>
+					</div>
         }
-      </React.Fragment>
+			</div>
     );
   }
 }

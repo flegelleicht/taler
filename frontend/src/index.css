@@ -38,6 +38,11 @@ font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubun
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 font-size: 10pt;
+
+--header-height: 40px;
+--action-height: 50px;
+--enter-height: 360px;
+--budget-stats-height: 190px;
 }
 code {
 font-family: source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
