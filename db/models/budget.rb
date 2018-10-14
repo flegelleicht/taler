@@ -32,26 +32,55 @@ class Budget < Sequel::Model
   end
   
   def statistics_in_interval(start_time, now, end_time)
-    entries_in_interval = self.entries.select{ |e| e.at != nil &&
-      e.at >= start_time && e.at < now
-    }
-    spent_total = entries_in_interval.reduce(0){|sum, e| sum + e.amount}
+    #puts "amount: #{self.amount}"
+    
+    entries_upto_start_of_now = self.entries
+      .select{ |e| e.at >= start_time && e.at < start_of_day(now) }
+    entries_in_interval = self.entries
+      .select{ |e| e.at >= start_time && e.at < now }
+      
+    spent_upto_start_of_now = entries_upto_start_of_now
+                    .select{|e| e.type == 'expense'}
+                    .reduce(0){|sum, e| sum + e.amount }
+    #puts "spent_upto_start_of_now: #{spent_upto_start_of_now}"
+    taken_upto_start_of_now = entries_upto_start_of_now
+                    .select{|e| e.type == 'income'}
+                    .reduce(0){|sum, e| sum + e.amount }
+    #puts "taken_upto_start_of_now: #{taken_upto_start_of_now}"
+    
+    spent_total = entries_in_interval
+                    .select{|e| e.type == 'expense'}
+                    .reduce(0){|sum, e| sum + e.amount }
+    #puts "spent_total: #{spent_total}"
+    taken_total = entries_in_interval
+                    .select{|e| e.type == 'income'}
+                    .reduce(0){|sum, e| sum + e.amount }
+    #puts "taken_total: #{taken_total}"
 
     entries_in_day = entries_in_interval.select{ |e|
-      e.at >= start_of_day(end_time) && e.at < now
+      e.at >= start_of_day(now) && e.at < now
     }
-    spent_on_day = entries_in_day.reduce(0){|sum, e| sum + e.amount}
+    spent_on_day = entries_in_day
+                      .select{|e| e.type == 'expense'}
+                      .reduce(0){|sum, e| sum + e.amount }
+    #puts "spent_on_day: #{spent_on_day}"
     
-    remaining_total = self.amount - spent_total
+    remaining_before_start_of_now = 
+      self.amount - spent_upto_start_of_now + taken_total
+    #puts "remaining_before_start_of_now: #{remaining_before_start_of_now}"
+    remaining_total = self.amount - spent_total + taken_total
     
     # FIXME: Depends on MONTHLY and does not work for others yet
     remaining_days = (end_of_month(now).to_date - now.to_date).to_i
+    #puts "remaining_days: #{remaining_days}"
     
     remaining_on_day = 
-      (self.amount - spent_total + spent_on_day) / remaining_days - spent_on_day
+      (remaining_before_start_of_now / remaining_days) - spent_on_day
+    #puts "remaining_on_day: #{remaining_on_day}"
   
     remaining_daily_afterwards = 
-      (self.amount - spent_total) / (remaining_days - 1)
+      (remaining_before_start_of_now - spent_on_day) / (remaining_days - 1)
+    #puts "remaining_daily_afterwards: #{remaining_daily_afterwards}"
     
     # FIXME: Depends on MONTHLY and does not work for others yet
     {
@@ -59,7 +88,8 @@ class Budget < Sequel::Model
       spentToday: spent_on_day,
       remainingTotal: remaining_total,
       remainingToday: remaining_on_day,
-      remainingTomorrow: remaining_daily_afterwards
+      remainingTomorrow: remaining_daily_afterwards,
+      remainingDays: remaining_days,
     }
   end
   
@@ -86,7 +116,8 @@ class Budget < Sequel::Model
       spentToday: s[:spentToday],
       remainingTotal: s[:remainingTotal],
       remainingToday: s[:remainingToday],
-      remainingTomorrow: s[:remainingTomorrow]
+      remainingTomorrow: s[:remainingTomorrow],
+      remainingDays: s[:remainingDays],
     }
   end
 end
