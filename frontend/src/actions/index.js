@@ -19,6 +19,9 @@ export const NAVIGATE_TO_BUDGETENTRYEDIT = 'NAVIGATE_TO_BUDGETENTRYEDIT';
 export const ADD_ENTRY_TO_BUDGET = 'ADD_ENTRY_TO_BUDGET';
 export const ADD_ENTRY_TO_BUDGET_SUCCESS = 'ADD_ENTRY_TO_BUDGET_SUCCESS';
 export const ADD_ENTRY_TO_BUDGET_FAILURE = 'ADD_ENTRY_TO_BUDGET_FAILURE';
+export const UPDATE_ENTRY_IN_BUDGET = 'UPDATE_ENTRY_IN_BUDGET';
+export const UPDATE_ENTRY_IN_BUDGET_SUCCESS = 'UPDATE_ENTRY_IN_BUDGET_SUCCESS';
+export const UPDATE_ENTRY_IN_BUDGET_FAILURE = 'UPDATE_ENTRY_IN_BUDGET_FAILURE';
 
 export const loginRequest = credentials => ({
   type: LOGIN_REQUEST,
@@ -105,3 +108,16 @@ export const navToBudgetEntryEdit = (info) => ({
   payload: info
 });
 
+export const updateEntryInBudget = (info) => ({
+  type: UPDATE_ENTRY_IN_BUDGET,
+  payload: info
+});
+
+export const updateEntryInBudgetSuccess = budget => ({
+  type: UPDATE_ENTRY_IN_BUDGET_SUCCESS,
+  payload: { budget }
+});
+
+export const updateEntryInBudgetFailure = () => ({
+  type: UPDATE_ENTRY_IN_BUDGET_FAILURE
+});
