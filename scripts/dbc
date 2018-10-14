@@ -1,0 +1,21 @@
+require_relative './db/models/user'
+require_relative './db/models/budget'
+require_relative './db/models/entry'
+def entry(options = {at: Time.now, amount: 1000, type: 'expense'})
+	e = Entry.create do |e|
+		e.at = options.fetch(:at, Time.now)
+		e.amount = options.fetch(:amount, 1000)
+		e.type = options.fetch(:type, 'expense')
+	end
+  Budget[2].add_entry(e)
+  e
+end
+
+def b
+  Budget[2]
+end
+
+def stat(options = {t: Time.now})
+  t = options.fetch(:t, Time.now)
+  b.statistics_in_interval(b.start_of_month(t), t, b.end_of_month(t))
+end

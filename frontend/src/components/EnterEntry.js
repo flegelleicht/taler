@@ -16,6 +16,7 @@ class EnterEntry extends React.Component {
       amount : '',
       formattedInput: '0,00 €',
       note: '',
+      type: 'expense',
       at: date,
       date: date.toISOString().slice(0,10),
       time: date.toLocaleTimeString('de-DE', {hour:'2-digit', minute: '2-digit'}),
@@ -60,13 +61,15 @@ class EnterEntry extends React.Component {
     if (this.state.amount !== '') {
       this.props.onEnter({
         at: this.state.at,
+        type: this.state.type,
         note: this.state.note,
         amount: Number.parseInt(this.state.amount)
       });
       this.setState({
         note: '',
         amount: '0,00',
-        formattedInput: '0,00 €'
+        formattedInput: '0,00 €',
+        type: 'expense'
       })
     }
   }
@@ -78,7 +81,10 @@ class EnterEntry extends React.Component {
   onKey(event) {
     //event.stopPropagation(); event.preventDefault();
     let amount = this.state.amount;
+    let type = this.state.type;
     switch (event.key) {
+      case '-': type = 'expense'; break;
+      case '+': type = 'income'; break;
       case '0': amount += '0'; break;
       case '1': amount += '1'; break;
       case '2': amount += '2'; break;
@@ -99,6 +105,7 @@ class EnterEntry extends React.Component {
     }
     this.setState({
       amount: amount, 
+      type: type,
       formattedInput: `${formatMoney(amount)} €`
     });
   }
@@ -107,6 +114,7 @@ class EnterEntry extends React.Component {
     return (
       <React.Fragment>
         <div>
+          {this.state.type === 'expense' ? '–' : ''}
           <input type="text" 
             onKeyDown={this.onKey} 
             onChange={this.onAmountChange} 

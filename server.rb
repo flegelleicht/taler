@@ -133,7 +133,7 @@ class Server < Sinatra::Base
       budget_id = params['id'].to_i
       budget = user.budgets.find{|b| b.id == budget_id}
       new_entry = Entry.create do |e|
-        e.type = "expense"
+        e.type = entry.fetch("type", "expense")
         e.amount = entry['amount'].to_i
         if entry['at']
           e.at = Time.parse(entry['at']).getlocal.to_datetime
