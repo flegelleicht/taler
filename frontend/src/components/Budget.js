@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { 
   navToBudgets,
+  navToBudgetEnterEntry,
   addEntryToBudget
 } from '../actions';
+import EnterEntry from './EnterEntry'
 
 function formatMoney(amount) {
   return Number.parseFloat(amount / 100.0).toFixed(2)
@@ -24,61 +26,6 @@ class BudgetEntry extends React.Component {
         </div>
         <div className="note">{e.note}</div>
       </li>
-    );
-  }
-}
-
-class EnterEntry extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      input : '',
-      formattedInput: '0,00 €'
-    }
-    this.onKey = this.onKey.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-  
-  onChange(event) {
-  }
-  
-  onKey(event) {
-    event.stopPropagation(); event.preventDefault();
-    let input = this.state.input;
-    switch (event.key) {
-      case '0': input += '0'; break;
-      case '1': input += '1'; break;
-      case '2': input += '2'; break;
-      case '3': input += '3'; break;
-      case '4': input += '4'; break;
-      case '5': input += '5'; break;
-      case '6': input += '6'; break;
-      case '7': input += '7'; break;
-      case '8': input += '8'; break;
-      case '9': input += '9'; break;
-      case 'Backspace': 
-        input = input.slice(0, input.length-1); break;
-      case 'Enter': 
-        if (input !== '') {
-          this.props.onEnter({
-            at: new Date(),
-            note: Math.random().toString(36).substr(2),
-            amount: Number.parseInt(input)})
-          input = '0';
-        }
-        break;
-      default:
-      break;
-    }
-    this.setState({
-      input: input, 
-      formattedInput: `${formatMoney(input)} €`
-    });
-  }
-  
-  render () {
-    return (
-      <input type="text" onKeyDown={this.onKey} onChange={this.onChange} value={this.state.formattedInput} />
     );
   }
 }
@@ -113,10 +60,19 @@ class Budget extends React.Component {
           <div id="spent-total" className="spent-total">
             ingesamt ausgegeben: {formatMoney(selectedBudget.spentTotal)}</div>
         </div>
-        <EnterEntry onEnter={(entry) => this.props.dispatch(addEntryToBudget({entry, budgetId: selectedBudget.id}))}/>
         <ul>
           {entries}
         </ul>
+        { this.props.screen === 'budget.enter' ? 
+          <EnterEntry 
+            budget={selectedBudget}
+            onEnter={(entry) => this.props.dispatch(addEntryToBudget({entry, budgetId: selectedBudget.id}))}/>
+          :
+          <button 
+            onClick={() => this.props.dispatch(navToBudgetEnterEntry())}>
+            +
+          </button>
+        }
       </React.Fragment>
     );
   }
@@ -124,7 +80,8 @@ class Budget extends React.Component {
 
 const mapStateToProps = state => ({
   budgets: state.data.budgets,
-  selectedBudgetId: state.ui.selectedBudgetId
+  selectedBudgetId: state.ui.selectedBudgetId,
+  screen: state.ui.display,
 });
 
 
