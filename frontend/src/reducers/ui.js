@@ -3,6 +3,7 @@ import {
   NAVIGATE_TO_BUDGETS,
   NAVIGATE_TO_BUDGET,
   NAVIGATE_TO_BUDGETENTERENTRY,
+  NAVIGATE_TO_BUDGETENTRYEDIT,
   ADD_ENTRY_TO_BUDGET_SUCCESS,
   LOGOUT_COMPLETED
 } from '../actions';
@@ -14,6 +15,7 @@ if (savedState) {
 }
 const defaultState = {
   selectedBudgetId: null,
+  selectedEntryId: null,
   display: 'budgets',
 }
 const initialState = savedState || defaultState;
@@ -42,6 +44,13 @@ const ui = (state = initialState, action) => {
     return {
       ...state,
       display: 'budget.enter'
+    }
+  case NAVIGATE_TO_BUDGETENTRYEDIT:
+    return {
+      ...state,
+      display: 'budget.enter',
+      selectedBudgetId: action.payload.budgetId,
+      selectedEntryId: action.payload.entryId
     }
   case ADD_ENTRY_TO_BUDGET_SUCCESS:
     return {

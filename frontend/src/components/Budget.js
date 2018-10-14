@@ -15,7 +15,8 @@ class BudgetEntry extends React.Component {
   render () {
     const e = this.props.entry;
     return (
-      <li className="budget-entry">
+      <li className="budget-entry"
+        onClick={() => this.props.onEdit(e.id)}>
         <div className={`budget-entry-amount ${e.type}`}>
           {formatMoney(e.amount)} 
         </div>
@@ -30,6 +31,18 @@ class BudgetEntry extends React.Component {
 }
 
 class Budget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onEditEntry = this.onEditEntry.bind(this);
+  }
+  
+  onEditEntry (id) {
+    this.props.dispatch(
+      navToBudgetEntryEdit({
+        budgetId: this.props.selectedBudgetId,
+        entryId: id
+      }));
+  }
   
   render() {
 		const renderStat = (stat) => {
@@ -51,8 +64,10 @@ class Budget extends React.Component {
 		].map((s) => renderStat({key: s[0], value: formatMoney(selectedBudget[s[0]]), text: s[1]}));
 
     const entries = 
-      selectedBudget.entries.map(e =>  <BudgetEntry key={e.id} entry={e} />);
-      
+      selectedBudget.entries.map(e =>  <BudgetEntry key={e.id} entry={e} onEdit={this.onEditEntry}/>);
+    
+    const selectedEntry = this.props.selectedEntryId ? selectedBudget.entries.find(e => e.id === this.props.selectedEntryId) : null;
+    
     return (
 			<div className={this.props.screen === 'budget.enter' ? 'budget-display-with-enter' : 'budget-display'}>
         <div className="budget-stats">
@@ -77,9 +92,16 @@ class Budget extends React.Component {
           {entries}
         </ul>
         { this.props.screen === 'budget.enter' ? 
-          <EnterEntry 
-            budget={selectedBudget}
-            onEnter={(entry) => this.props.dispatch(addEntryToBudget({entry, budgetId: selectedBudget.id}))}/>
+          selectedEntry ?
+            <EnterEntry 
+              entry={selectedEntry}
+              budget={selectedBudget}
+            />
+          :
+            <EnterEntry 
+              budget={selectedBudget}
+              onEnter={(entry) => this.props.dispatch(addEntryToBudget({entry, budgetId: selectedBudget.id}))}
+            />
           :
 					<div id="budget-entry-enter-container">
 						<button id="budget-entry-enter" 
@@ -96,6 +118,7 @@ class Budget extends React.Component {
 const mapStateToProps = state => ({
   budgets: state.data.budgets,
   selectedBudgetId: state.ui.selectedBudgetId,
+  selectedEntryId: state.ui.selectedEntryId,
   screen: state.ui.display,
 });
 
