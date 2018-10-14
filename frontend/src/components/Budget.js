@@ -56,7 +56,7 @@ class Budget extends React.Component {
     return (
 			<div className={this.props.screen === 'budget.enter' ? 'budget-display-with-enter' : 'budget-display'}>
         <div className="budget-stats">
-					<h3>{selectedBudget.name}</h3>
+					<h3 className="budget">{selectedBudget.name}</h3>
 					{renderStat({	
 							key: 'remainingToday', 
 							value: formatMoney(selectedBudget['remainingToday']),

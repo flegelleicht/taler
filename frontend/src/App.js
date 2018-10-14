@@ -31,7 +31,7 @@ class App extends Component {
       <div id="app">
 				<div id="header">
         <div>
-					{ this.props.loggedIn ? 
+					{ this.props.display.match(/budget$|budget.enter$/) ? 
 	          <button onClick={() => {this.props.dispatch(navToBudgets())}}>
 							&lt; Alle Budgets
 						</button>

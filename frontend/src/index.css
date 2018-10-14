@@ -60,4 +60,7 @@ button {
 button:hover {
 	background-color: #ddd;
 }
+input, button {
+	cursor: pointer;
+}
 
