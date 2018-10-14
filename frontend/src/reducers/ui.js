@@ -2,7 +2,8 @@ import {
   BUDGET_SELECT,
   NAVIGATE_TO_BUDGETS,
   NAVIGATE_TO_BUDGET,
-  NAVIGATE_TO_BUDGETENTERENTRY
+  NAVIGATE_TO_BUDGETENTERENTRY,
+  ADD_ENTRY_TO_BUDGET_SUCCESS,
 } from '../actions';
 
 const initialState = {
@@ -34,6 +35,12 @@ const ui = (state = initialState, action) => {
     return {
       ...state,
       display: 'budget.enter'
+    }
+  case ADD_ENTRY_TO_BUDGET_SUCCESS:
+    return {
+      ...state,
+      selectedBudgetId: action.payload.budget.id,
+      display: 'budget'
     }
   default:
     return state;
