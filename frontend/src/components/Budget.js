@@ -49,13 +49,15 @@ class Budget extends React.Component {
         <div>
           <div id="total">
             insgesamt: {formatMoney(selectedBudget.amount)}</div>
-          <div id="remaining-today" className="spent-total">
+          <div id="remaining-days" className="remaining-days">
+            verbleibende Tage: {selectedBudget.remainingDays}</div>
+          <div id="remaining-today" className="remaining-today">
             heute übrig: {formatMoney(selectedBudget.remainingToday)}</div>
-          <div id="remaining-tomorrow" className="spent-total">
+          <div id="remaining-tomorrow" className="remaining-tomorrow">
             morgen übrig: {formatMoney(selectedBudget.remainingTomorrow)}</div>
-          <div id="remaining-total" className="spent-total">
+          <div id="remaining-total" className="remaining-total">
             insgesamt übrig: {formatMoney(selectedBudget.remainingTotal)}</div>
-          <div id="spent-today" className="spent-total">
+          <div id="spent-today" className="spent-today">
             heute ausgegeben: {formatMoney(selectedBudget.spentToday)}</div>
           <div id="spent-total" className="spent-total">
             ingesamt ausgegeben: {formatMoney(selectedBudget.spentTotal)}</div>
