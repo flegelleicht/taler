@@ -37,7 +37,30 @@ html {
 font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
+font-size: 10pt;
+
+--header-height: 40px;
+--action-height: 50px;
+--enter-height: 360px;
+--budget-stats-height: 190px;
 }
 code {
 font-family: source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
 }
+
+h1 { font-size: 150%; }
+h2 { font-size: 125%; }
+h3 { font-size: 110%; }
+button {
+	border: none;
+	border-radius: 5px;
+	background-color: transparent;
+	padding: 0.5rem;
+}
+button:hover {
+	background-color: #ddd;
+}
+input, button {
+	cursor: pointer;
+}
+
