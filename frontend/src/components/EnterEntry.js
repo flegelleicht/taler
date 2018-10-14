@@ -17,14 +17,31 @@ class EnterEntry extends React.Component {
   constructor(props) {
     super(props);
     const date = new Date();
-    this.state = {
-      amount : '',
-      formattedInput: '',
-      note: '',
-      type: 'expense',
-      at: date,
-      date: date.toISOString().slice(0,10),
-      time: date.toLocaleTimeString('de-DE', {hour:'2-digit', minute: '2-digit'}),
+    
+    if (this.props.entry) {
+      let e = this.props.entry;
+      e.at = new Date(e.at);
+      this.state = {
+        isEdit: true,
+        id: e.id,
+        amount : `${e.amount}`,
+        formattedInput: formatAmountInput(e.type, e.amount),
+        note: e.note || '',
+        type: e.type,
+        at: e.at,
+        date: e.at.toISOString().slice(0,10),
+        time: e.at.toLocaleTimeString('de-DE', {hour:'2-digit', minute: '2-digit'}),
+      } 
+    } else {
+      this.state = {
+        amount : '',
+        formattedInput: '',
+        note: '',
+        type: 'expense',
+        at: date,
+        date: date.toISOString().slice(0,10),
+        time: date.toLocaleTimeString('de-DE', {hour:'2-digit', minute: '2-digit'}),
+      }
     }
     this.onKey = this.onKey.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -66,6 +83,7 @@ class EnterEntry extends React.Component {
   onEnter(event) {
     if (this.state.amount !== '') {
       this.props.onEnter({
+        id: this.state.id,
         at: this.state.at,
         type: this.state.type,
         note: this.state.note,
