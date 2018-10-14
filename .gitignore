@@ -6,4 +6,6 @@
 /ssl
 /frontend/package-lock.json
 *.swp
+/scripts/data.csv
+/scripts/import_data.rb
 

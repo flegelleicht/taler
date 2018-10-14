@@ -94,6 +94,7 @@ h3.budget {
 }
 #budget-entries {
 	height: calc(100% - var(--budget-stats-height));
-	overflow-y: auto;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
