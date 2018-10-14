@@ -61,6 +61,7 @@ class EnterEntry extends React.Component {
     if (this.state.amount !== '') {
       this.props.onEnter({
         at: this.state.at,
+        type: this.state.type,
         note: this.state.note,
         amount: Number.parseInt(this.state.amount)
       });
