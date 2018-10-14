@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import LoginListener from './listeners/LoginListener';
 import BudgetListener from './listeners/BudgetListener';
+import SaveStateListener from './listeners/SaveStateListener';
 
 import './index.css';
 import App from './App';
@@ -26,6 +27,8 @@ const loginListener = new LoginListener();
 loginListener.subscribe(store);
 const budgetListener = new BudgetListener();
 budgetListener.subscribe(store);
+const saveStateListener = new SaveStateListener();
+saveStateListener.subscribe(store);
 
 ReactDOM.render(
   <Provider store={store}>
