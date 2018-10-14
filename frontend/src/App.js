@@ -5,6 +5,7 @@ import './App.css';
 import Login from './components/Login';
 import Budgets from './components/Budgets';
 import Budget from './components/Budget';
+import { navToBudgets } from './actions';
 
 class App extends Component {
   render() {
@@ -27,10 +28,21 @@ class App extends Component {
     }
     
     return (
-      <React.Fragment>
-        <Login />
+      <div id="app">
+				<div id="header">
+        <div>
+					{ this.props.loggedIn ? 
+	          <button onClick={() => {this.props.dispatch(navToBudgets())}}>
+							&lt; Alle Budgets
+						</button>
+						:
+						null
+					}
+        </div>
+					<Login />
+				</div>
         {this.props.loggedIn ? screen : null}
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -46,4 +46,13 @@ font-family: source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
 h1 { font-size: 150%; }
 h2 { font-size: 125%; }
 h3 { font-size: 110%; }
+button {
+	border: none;
+	border-radius: 5px;
+	background-color: transparent;
+	padding: 0.5rem;
+}
+button:hover {
+	background-color: #ddd;
+}
 

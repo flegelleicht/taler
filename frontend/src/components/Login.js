@@ -44,7 +44,6 @@ class Login extends React.Component {
       <React.Fragment>
       { loggedIn === true ?
         <div>
-          Logged in as { user.name }
           <button onClick={this.onLogout}>Abmelden</button>
         </div>
       :
