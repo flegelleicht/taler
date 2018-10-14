@@ -1,3 +1,5 @@
+import { logoutCompleted } from '../actions';
+
 export default class SaveStateListener {
   constructor(store) {
     this.store = null
@@ -15,7 +17,12 @@ export default class SaveStateListener {
   }
   
   onChange() {
-    const state = this.store.getState();
-    window.localStorage.setItem('state', JSON.stringify(state));
+    if (this.store.getState().login.loggingOut) {
+      window.localStorage.removeItem('state');
+      this.store.dispatch(logoutCompleted());
+    } else {
+      const state = this.store.getState();
+      window.localStorage.setItem('state', JSON.stringify(state));
+    }
   }
 }
