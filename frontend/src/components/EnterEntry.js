@@ -15,9 +15,63 @@ class EnterEntry extends React.Component {
     this.state = {
       amount : '',
       formattedInput: '0,00 €',
+      note: '',
+      at: date,
+      date: date.toISOString().slice(0,10),
+      time: date.toLocaleTimeString('de-DE', {hour:'2-digit', minute: '2-digit'}),
+    }
     this.onKey = this.onKey.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
+    this.onNoteChange = this.onNoteChange.bind(this);
+    this.onTimeChange = this.onTimeChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+  }
+  
   onAmountChange(event) {
+  }
+  
+  onNoteChange(event) {
+    this.setState({
+      note: event.target.value
+    });
+  }
+  
+  onDateChange(event) {
+    let date = new Date(`${event.target.value}T${this.state.time}`)
+    console.log(`onDateChange: ${event.target.value} => ${date}`)
+    this.setState({
+      at: date,
+      date: event.target.value
+    });
+  }
+  
+  onTimeChange(event) {
+    let date = new Date(`${this.state.date}T${event.target.value}`)
+    console.log(`onTimeChange: ${event.target.value} => ${date}`)
+    this.setState({
+      at: date,
+      time: event.target.value
+    });
+  }
+  
+  onEnter(event) {
+    if (this.state.amount !== '') {
+      this.props.onEnter({
+        at: this.state.at,
+        note: this.state.note,
+        amount: Number.parseInt(this.state.amount)
+      });
+      this.setState({
+        note: '',
+        amount: '0,00'
+      })
+    }
+  }
+  
+  onCancel() {
+    this.props.dispatch(navToBudget(this.props.budget.id));
   }
   
   onKey(event) {
@@ -57,6 +111,21 @@ class EnterEntry extends React.Component {
             onChange={this.onAmountChange} 
             value={this.state.formattedInput} />
         </div>
+        <div>
+          <input type="text" 
+            onChange={this.onNoteChange}
+            value={this.state.note} />
+        </div>
+        <div>
+          <input type="date"
+            onChange={this.onDateChange}
+            value={this.state.date}/>
+          <input type="time"
+            onChange={this.onTimeChange}
+            value={this.state.time}/>
+        </div>
+        <button onClick={this.onCancel}>Abbrechen</button>
+        <button onClick={this.onEnter}>Eingeben</button>
       </React.Fragment>
     );
   }
