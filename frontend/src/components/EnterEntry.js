@@ -65,7 +65,8 @@ class EnterEntry extends React.Component {
       });
       this.setState({
         note: '',
-        amount: '0,00'
+        amount: '0,00',
+        formattedInput: '0,00 €'
       })
     }
   }
