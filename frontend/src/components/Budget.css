@@ -1,0 +1,99 @@
+h3.budget {
+	text-align: center;
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+	border-bottom: 1px solid #ddd;
+}
+.budget-display {
+	height: calc(100vh - var(--header-height) - var(--action-height));
+}
+.budget-display-with-enter {
+	height: calc(100vh - var(--header-height) - var(--enter-height));
+}
+.budget-stats {
+  width: 100%;
+	height: var(--budget-stats-height);
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #ddd;
+}
+.budget-stat {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: baseline;
+	margin-bottom: 0.25rem;
+}
+.budget-stat-value {
+	width: 50%;
+	text-align: right;
+	padding-right: 0.5rem;
+}
+.budget-stat-text {
+	font-size: 80%;
+}
+#remaining-today {
+	font-size: 175%;
+}
+
+.budget-entry {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	height: 3rem;
+
+	border-bottom: 1px solid #ddd;
+}
+.expense::before {
+	content: '-';
+}
+.budget-entry-amount {
+	font-size: 110%;
+	text-align: right;
+	padding-right: 0.5rem;
+	width: 50%;
+}
+.budget-entry-note {
+	width: 25%;
+	color: #999;
+}
+.budget-entry-at {
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	font-size: 50%;
+	color: #999;
+}
+.budget-entry-at > div {
+	width: 100%;
+	text-align: right;
+}
+#budget-entry-enter {
+	font-size: 300%;
+	color: #333;
+	background-color: white;
+	padding-bottom: .5em;
+	width:50%;
+	box-shadow: -2px 0px 5px #999, 2px 0px 5px #999;
+}
+#budget-entry-enter-container {
+	height: var(--action-height);
+	position: fixed;
+	width: 100vw;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#budget-entries {
+	height: calc(100% - var(--budget-stats-height));
+	overflow-y: auto;
+}
+

@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import { 
   navToBudget
 } from '../actions';
+import './EnterEntry.css';
 
 function formatMoney(amount) {
   return Number.parseFloat(amount / 100.0).toFixed(2)
+}
+
+function formatAmountInput(type, amount) {
+	return `${type === 'expense' ? '- ' : '+ '}${formatMoney(amount)} €`;
 }
 
 class EnterEntry extends React.Component {
@@ -14,7 +19,7 @@ class EnterEntry extends React.Component {
     const date = new Date();
     this.state = {
       amount : '',
-      formattedInput: '0,00 €',
+      formattedInput: '',
       note: '',
       type: 'expense',
       at: date,
@@ -28,6 +33,7 @@ class EnterEntry extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onEnter = this.onEnter.bind(this);
     this.onCancel = this.onCancel.bind(this);
+		this.onKeyboard = this.onKeyboard.bind(this);
   }
   
   onAmountChange(event) {
@@ -67,8 +73,8 @@ class EnterEntry extends React.Component {
       });
       this.setState({
         note: '',
-        amount: '0,00',
-        formattedInput: '0,00 €',
+        amount: '',
+        formattedInput: '',
         type: 'expense'
       })
     }
@@ -79,6 +85,10 @@ class EnterEntry extends React.Component {
   }
   
   onKey(event) {
+		this.onKeyboard(event);
+  }
+
+	onKeyboard(event) {
     //event.stopPropagation(); event.preventDefault();
     let amount = this.state.amount;
     let type = this.state.type;
@@ -106,36 +116,58 @@ class EnterEntry extends React.Component {
     this.setState({
       amount: amount, 
       type: type,
-      formattedInput: `${formatMoney(amount)} €`
+      formattedInput: formatAmountInput(type, amount)
     });
-  }
+	}
   
   render () {
     return (
-      <React.Fragment>
+			<div id="enter-entry-wrapper">
+        <div id="enter-entry-datetime">
+          <input type="date" id="enter-entry-date" className="input"
+            onChange={this.onDateChange}
+            value={this.state.date}/>
+          <input type="time" id="enter-entry-time" className="input"
+            onChange={this.onTimeChange}
+            value={this.state.time}/>
+        </div>
+
         <div>
-          {this.state.type === 'expense' ? '–' : ''}
-          <input type="text" 
+          <input type="text" className="input" id="enter-entry-note" 
+						placeholder="Notiz"
+            onChange={this.onNoteChange}
+            value={this.state.note} />
+        </div>
+
+        <div id="enter-entry-amount-container">
+          <input type="text" className="input" id="enter-entry-amount"
+						placeholder="0,00 €"
+						onClick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							this.onKeyboard({key: (this.state.type === 'expense') ? '+' : '-'});
+						}}
             onKeyDown={this.onKey} 
             onChange={this.onAmountChange} 
             value={this.state.formattedInput} />
         </div>
-        <div>
-          <input type="text" 
-            onChange={this.onNoteChange}
-            value={this.state.note} />
-        </div>
-        <div>
-          <input type="date"
-            onChange={this.onDateChange}
-            value={this.state.date}/>
-          <input type="time"
-            onChange={this.onTimeChange}
-            value={this.state.time}/>
-        </div>
-        <button onClick={this.onCancel}>Abbrechen</button>
-        <button onClick={this.onEnter}>Eingeben</button>
-      </React.Fragment>
+				
+				<div id="enter-entry-keyboard">
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>1</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>2</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>3</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>4</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>5</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>6</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>7</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>8</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>9</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: 'Backspace'})}>⌫</button>
+					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>0</button>
+					<button className="kb" onClick={this.onEnter}>✓</button>
+					<button className="kb" onClick={this.onCancel}>Abbrechen</button>
+				</div>
+			</div>
     );
   }
 }
