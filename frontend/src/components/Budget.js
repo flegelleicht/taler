@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { 
   navToBudgetEnterEntry,
-  addEntryToBudget
+  navToBudgetEntryEdit,
+  addEntryToBudget,
+  updateEntryInBudget,
 } from '../actions';
 import './Budget.css';
 import EnterEntry from './EnterEntry'
@@ -96,6 +98,7 @@ class Budget extends React.Component {
             <EnterEntry 
               entry={selectedEntry}
               budget={selectedBudget}
+              onEnter={(entry) => this.props.dispatch(updateEntryInBudget({entry, budgetId: selectedBudget.id}))}
             />
           :
             <EnterEntry 

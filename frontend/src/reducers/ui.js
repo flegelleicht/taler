@@ -5,6 +5,7 @@ import {
   NAVIGATE_TO_BUDGETENTERENTRY,
   NAVIGATE_TO_BUDGETENTRYEDIT,
   ADD_ENTRY_TO_BUDGET_SUCCESS,
+  UPDATE_ENTRY_IN_BUDGET_SUCCESS,
   LOGOUT_COMPLETED
 } from '../actions';
 
@@ -56,6 +57,13 @@ const ui = (state = initialState, action) => {
     return {
       ...state,
       selectedBudgetId: action.payload.budget.id,
+      display: 'budget'
+    };
+  case UPDATE_ENTRY_IN_BUDGET_SUCCESS:
+    return {
+      ...state,
+      selectedBudgetId: action.payload.budget.id,
+      selectedEntryId: null,
       display: 'budget'
     }
   case LOGOUT_COMPLETED:
