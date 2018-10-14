@@ -34,6 +34,7 @@ class EnterEntry extends React.Component {
       } 
     } else {
       this.state = {
+        isEdit: false,
         amount : '',
         formattedInput: '',
         note: '',
@@ -184,6 +185,11 @@ class EnterEntry extends React.Component {
 					<button className="kb" onClick={(e)=> this.onKeyboard({key: e.target.innerText})}>0</button>
 					<button className="kb" onClick={this.onEnter}>✓</button>
 					<button className="kb" onClick={this.onCancel}>Abbrechen</button>
+          {this.state.isEdit?
+            <button className="kb" onClick={() => this.props.onDelete(this.state.id)}>Löschen</button>
+            :
+            null
+          }
 				</div>
 			</div>
     );
