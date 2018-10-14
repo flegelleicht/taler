@@ -25,11 +25,15 @@ class Server < Sinatra::Base
       method = method.to_s.upcase
       condition { request.request_method == method}
     end
+    set(:methods) do |*methods|
+      methods = methods.map{|m| m.to_s.upcase}
+      condition { methods.include? request.request_method }
+    end
   end
   
   use JWTAuth
   
-  before '/api/v1/*', :method => :post do
+  before '/api/v1/*', :methods => [:post, :put] do
     begin
       request.body.rewind
       @rawJsonBody = request.body.read
@@ -63,10 +67,10 @@ class Server < Sinatra::Base
   end
 
   options '*' do
-    headers "Allow" => "GET, POST, OPTIONS"
+    headers "Allow" => "GET, POST, PUT, OPTIONS"
     headers "Access-Control-Allow-Headers"  => "access-control-allow-origin, authorization"
     headers "Access-Control-Allow-Origin"   => "http://localhost:3000"
-    headers "Access-Control-Allow-Methods"  => "all"
+    headers "Access-Control-Allow-Methods"  => "GET, POST, PUT, OPTIONS"
     halt 200
   end
 
@@ -149,6 +153,32 @@ class Server < Sinatra::Base
     end
   end
   
+  put '/api/v1/private/budgets/:bid/entries/:eid' do
+    require 'pp'
+    pp @jsonBody
+    begin
+      e = @jsonBody['entry']
+      user_id = request.env[:user]['id']
+      user = User.find(id: user_id)
+      budget_id = params['bid'].to_i
+      entry_id = params['eid'].to_i
+      budget = user.budgets.find{|b| b.id == budget_id}
+      entry = budget.entries.find{|e| e.id == entry_id}
+
+      entry.type = e.fetch("type", entry.type)
+      entry.amount = e.fetch("amount", entry.amount).to_i
+      entry.note = e.fetch("note", entry.note)
+      if e['at']
+          entry.at = Time.parse(e['at']).getlocal.to_datetime
+      end
+      entry.save_changes
+    
+      content_type :json
+      {budget: budget.to_api}.to_json      
+    rescue StandardError => e
+      halt 400, {message: "Error during processing: #{e} #{ e.backtrace.last(5)}"}.to_json
+    end
+  end
     
   get '/api/v1/private' do
     user_id = request.env[:user]['id']
