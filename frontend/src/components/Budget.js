@@ -5,10 +5,11 @@ import {
   navToBudgetEnterEntry,
   addEntryToBudget
 } from '../actions';
+import './Budget.css';
 import EnterEntry from './EnterEntry'
 
 function formatMoney(amount) {
-  return Number.parseFloat(amount / 100.0).toFixed(2)
+  return `${Number.parseFloat(amount / 100.0).toFixed(2)} €`;
 }
 
 class BudgetEntry extends React.Component {
@@ -33,8 +34,24 @@ class BudgetEntry extends React.Component {
 class Budget extends React.Component {
   
   render() {
+		const renderStat = (stat) => {
+			return (
+				<div key={stat.key} id={stat.id} className="budget-stat">
+					<div className="budget-stat-value">{stat.value}</div>
+					<div className="budget-stat-text">{stat.text}</div>
+				</div>
+			);
+		}
     const selectedBudget = 
       this.props.budgets.find(b => b.id === this.props.selectedBudgetId);
+		const stats = [
+			['remainingTomorrow', 'morgen übrig'],
+			['amount', 'insgesamt'],
+			//['remainingTotal', 'insgesamt übrig'],
+			//['spentToday', 'heute ausgegeben'],
+			['spentTotal', 'insgesamt ausgegeben'],
+		].map((s) => renderStat({key: s[0], value: formatMoney(selectedBudget[s[0]]), text: s[1]}));
+
     const entries = 
       selectedBudget.entries.map(e =>  <BudgetEntry key={e.id} entry={e} />);
       
@@ -46,21 +63,22 @@ class Budget extends React.Component {
           </button>
         </div>
         <h3>{selectedBudget.name}</h3>
-        <div>
-          <div id="total">
-            insgesamt: {formatMoney(selectedBudget.amount)}</div>
-          <div id="remaining-days" className="remaining-days">
-            verbleibende Tage: {selectedBudget.remainingDays}</div>
-          <div id="remaining-today" className="remaining-today">
-            heute übrig: {formatMoney(selectedBudget.remainingToday)}</div>
-          <div id="remaining-tomorrow" className="remaining-tomorrow">
-            morgen übrig: {formatMoney(selectedBudget.remainingTomorrow)}</div>
-          <div id="remaining-total" className="remaining-total">
-            insgesamt übrig: {formatMoney(selectedBudget.remainingTotal)}</div>
-          <div id="spent-today" className="spent-today">
-            heute ausgegeben: {formatMoney(selectedBudget.spentToday)}</div>
-          <div id="spent-total" className="spent-total">
-            ingesamt ausgegeben: {formatMoney(selectedBudget.spentTotal)}</div>
+        <div className="budget-stats">
+					{renderStat({	
+							key: 'remainingToday', 
+							value: formatMoney(selectedBudget['remainingToday']),
+							text: 'heute übrig',
+							id: 'remaining-today'
+						}
+					)}
+					{renderStat({	
+							key: 'remainingDays', 
+							value: selectedBudget['remainingDays'],
+							text: 'verbleibende Tage',
+							id: 'remaining-days'
+						}
+					)}
+					{stats}
         </div>
         <ul>
           {entries}
