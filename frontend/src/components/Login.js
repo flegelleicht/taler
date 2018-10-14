@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginRequest } from '../actions';
+import { loginRequest, logoutRequest } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class Login extends React.Component {
       inputPass: ''
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
   
   onSubmit(e) {
@@ -19,6 +20,12 @@ class Login extends React.Component {
         user: this.state.inputUser, 
         pass: this.state.inputPass
       })
+    );
+  }
+  
+  onLogout (e) {
+    this.props.dispatch(
+      logoutRequest()
     );
   }
   
@@ -38,7 +45,7 @@ class Login extends React.Component {
       { loggedIn === true ?
         <div>
           Logged in as { user.name }
-          <button>Abmelden</button>
+          <button onClick={this.onLogout}>Abmelden</button>
         </div>
       :
         <form onSubmit={this.onSubmit}>

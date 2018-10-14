@@ -1,17 +1,27 @@
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_COMPLETED
 } from '../actions';
 
-const initialState = {
+let savedState = window.localStorage.getItem('state');
+if (savedState) {
+  savedState = JSON.parse(savedState);
+  savedState = savedState.login;
+}
+const defaultState = {
   loading: false,
   token: null,
   loggedIn: false,
+  loggingOut: false,
   user: null,
   failure: null,
   credentials: null
-}
+};
+
+const initialState = savedState || defaultState;
 
 const login = (state = initialState, action) => {
   switch (action.type) {
@@ -38,6 +48,13 @@ const login = (state = initialState, action) => {
       token: null,
       credentials: null
     };
+  case LOGOUT_REQUEST:
+    return {
+      ...state,
+      loggingOut: true
+    };
+  case LOGOUT_COMPLETED:
+    return defaultState;
   default:
     return state;
   }

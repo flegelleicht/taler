@@ -9,7 +9,12 @@ import {
   ADD_ENTRY_TO_BUDGET_FAILURE,
 } from '../actions';
 
-const initialState = {
+let savedState = window.localStorage.getItem('state');
+if (savedState) {
+  savedState = JSON.parse(savedState);
+  savedState = savedState.data;
+}
+const defaultState = {
   loadingBudgets: false,
   loadingEntries: false,
   addEntry: false,
@@ -18,6 +23,7 @@ const initialState = {
   failure: null,
   budgets: []
 }
+const initialState = savedState || defaultState;
 
 const data = (state = initialState, action) => {
   switch (action.type) {
