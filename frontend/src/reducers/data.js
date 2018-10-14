@@ -14,7 +14,7 @@ if (savedState) {
   savedState = JSON.parse(savedState);
   savedState = savedState.data;
 }
-const initialState = savedState || {
+const defaultState = {
   loadingBudgets: false,
   loadingEntries: false,
   addEntry: false,
@@ -23,6 +23,7 @@ const initialState = savedState || {
   failure: null,
   budgets: []
 }
+const initialState = savedState || defaultState;
 
 const data = (state = initialState, action) => {
   switch (action.type) {
