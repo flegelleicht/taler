@@ -11,6 +11,7 @@ export const BUDGET_ENTRIES_SUCCESS = 'BUDGET_ENTRIES_SUCCESS';
 export const BUDGET_ENTRIES_FAILURE = 'BUDGET_ENTRIES_FAILURE';
 
 export const NAVIGATE_TO_BUDGETS = 'NAVIGATE_TO_BUDGETS';
+export const NAVIGATE_TO_BUDGET = 'NAVIGATE_TO_BUDGET';
 export const NAVIGATE_TO_BUDGETENTERENTRY = 'NAVIGATE_TO_BUDGETENTERENTRY';
 
 export const ADD_ENTRY_TO_BUDGET = 'ADD_ENTRY_TO_BUDGET';
@@ -82,4 +83,9 @@ export const addEntryToBudgetFailure = error => ({
 
 export const navToBudgetEnterEntry = () => ({
   type: NAVIGATE_TO_BUDGETENTERENTRY
+});
+
+export const navToBudget = (id) => ({
+  type: NAVIGATE_TO_BUDGET,
+  payload: { id: id}
 });
