@@ -5,6 +5,7 @@ import {
   navToBudgetEntryEdit,
   addEntryToBudget,
   updateEntryInBudget,
+  deleteEntry,
 } from '../actions';
 import './Budget.css';
 import EnterEntry from './EnterEntry'
@@ -98,7 +99,11 @@ class Budget extends React.Component {
             <EnterEntry 
               entry={selectedEntry}
               budget={selectedBudget}
-              onEnter={(entry) => this.props.dispatch(updateEntryInBudget({entry, budgetId: selectedBudget.id}))}
+              onDelete={(entryId) => this.props.dispatch(
+                deleteEntry(entryId)
+              )}
+              onEnter={(entry) => this.props.dispatch(
+                updateEntryInBudget({entry, budgetId: selectedBudget.id}))}
             />
           :
             <EnterEntry 

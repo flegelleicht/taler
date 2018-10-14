@@ -1,5 +1,5 @@
 class Entry < Sequel::Model
-  many_to_one :budgets
+  many_to_one :budget
   
   EXPENSE = "expense"
   INCOME = "income"

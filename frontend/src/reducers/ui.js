@@ -6,7 +6,9 @@ import {
   NAVIGATE_TO_BUDGETENTRYEDIT,
   ADD_ENTRY_TO_BUDGET_SUCCESS,
   UPDATE_ENTRY_IN_BUDGET_SUCCESS,
-  LOGOUT_COMPLETED
+  DELETE_ENTRY_SUCCESS,
+  DELETE_ENTRY_FAILURE,
+  LOGOUT_COMPLETED,
 } from '../actions';
 
 let savedState = window.localStorage.getItem('state');
@@ -39,6 +41,7 @@ const ui = (state = initialState, action) => {
     return {
       ...state,
       selectedBudgetId: action.payload.id,
+      selectedEntryId: null,
       display: 'budget'
     }
   case NAVIGATE_TO_BUDGETENTERENTRY:
@@ -59,6 +62,8 @@ const ui = (state = initialState, action) => {
       selectedBudgetId: action.payload.budget.id,
       display: 'budget'
     };
+  case DELETE_ENTRY_SUCCESS:
+  case DELETE_ENTRY_FAILURE:
   case UPDATE_ENTRY_IN_BUDGET_SUCCESS:
     return {
       ...state,

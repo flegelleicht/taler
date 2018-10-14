@@ -10,6 +10,9 @@ import {
   UPDATE_ENTRY_IN_BUDGET,
   UPDATE_ENTRY_IN_BUDGET_SUCCESS,
   UPDATE_ENTRY_IN_BUDGET_FAILURE,
+  DELETE_ENTRY,
+  DELETE_ENTRY_SUCCESS,
+  DELETE_ENTRY_FAILURE,
 } from '../actions';
 
 let savedState = window.localStorage.getItem('state');
@@ -133,6 +136,36 @@ const data = (state = initialState, action) => {
       ...state,
       updateEntry: false,
       updateEntryInfo: null,
+    };
+  case DELETE_ENTRY:
+    return {
+      ...state,
+      deleteEntry: true,
+      deleteEntryInfo: action.payload
+    };
+  case DELETE_ENTRY_SUCCESS:
+    {
+      let changedBudget = action.payload.budget;
+      let budgets = state.budgets;
+      let index = budgets.findIndex(b => b.id === changedBudget.id);
+      let newBudgets = [
+        ...budgets.slice(0, index), 
+        changedBudget, 
+        ...budgets.slice(index + 1)
+      ];
+
+      return {
+        ...state,
+        deleteEntry: false,
+        deleteEntryInfo: null,
+        budgets: newBudgets
+      };
+    }
+  case DELETE_ENTRY_FAILURE:
+    return {
+      ...state,
+      deleteEntry: false,
+      deleteEntryInfo: null,
     };
   default:
     return state;

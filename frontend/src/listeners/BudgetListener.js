@@ -7,6 +7,8 @@ import {
   addEntryToBudgetFailure,
   updateEntryInBudgetSuccess,
   updateEntryInBudgetFailure,
+  deleteEntrySuccess,
+  deleteEntryFailure,
  } from '../actions';
 
 function handleErrors(response) {
@@ -117,5 +119,24 @@ export default class BudgetListener {
           updateEntryInBudgetFailure(error)
         ));      
     }
+    
+    else if (state.data.deleteEntry && state.data.deleteEntryInfo) {
+      let id = state.data.deleteEntryInfo.id;
+      fetch(`https://localhost:4567/api/v1/private/entries/${id}`,{
+        method: 'DELETE',
+        headers: {'Authorization': `Bearer ${token}`}
+      })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(json => {
+          this.store.dispatch(
+            deleteEntrySuccess(json.budget));
+          return json.budget;
+        })
+        .catch(error => this.store.dispatch(
+          deleteEntryFailure(error)
+        ));      
+    }
+    
   }
 }
