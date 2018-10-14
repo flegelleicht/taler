@@ -1,5 +1,15 @@
+h3 {
+	text-align: center;
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+	border-bottom: 1px solid #ddd;
+}
 .budget-stats {
   width: 100%;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid #ddd;
 }
 .budget-stat {
 	width: 100%;
@@ -10,7 +20,7 @@
 	margin-bottom: 0.25rem;
 }
 .budget-stat-value {
-	width: 10rem;
+	width: 50%;
 	text-align: right;
 	padding-right: 0.5rem;
 }
@@ -19,4 +29,39 @@
 }
 #remaining-today {
 	font-size: 175%;
+}
+
+.budget-entry {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	height: 3rem;
+
+	border-bottom: 1px solid #ddd;
+}
+.expense::before {
+	content: '-';
+}
+.budget-entry-amount {
+	font-size: 110%;
+	text-align: right;
+	padding-right: 0.5rem;
+	width: 50%;
+}
+.budget-entry-note {
+	width: 25%;
+	color: #999;
+}
+.budget-entry-at {
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	font-size: 50%;
+	color: #999;
+}
+.budget-entry-at > div {
+	width: 100%;
+	text-align: right;
 }

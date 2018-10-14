@@ -16,16 +16,15 @@ class BudgetEntry extends React.Component {
   render () {
     const e = this.props.entry;
     return (
-      <li>
-        <div className={e.type}></div>
-        <div className="amount">
+      <li className="budget-entry">
+        <div className={`budget-entry-amount ${e.type}`}>
           {formatMoney(e.amount)} 
         </div>
-        <div className="at">
-          {(new Date(e.at)).toLocaleDateString("de-DE")}
-          {(new Date(e.at)).toLocaleTimeString("de-DE")}
+        <div className="budget-entry-note">{e.note === '' ? 'Stuff' : e.note}</div>
+        <div className="budget-entry-at">
+					<div>{(new Date(e.at)).toLocaleDateString("de-DE")}</div>
+          <div>{(new Date(e.at)).toLocaleTimeString("de-DE")}</div>
         </div>
-        <div className="note">{e.note}</div>
       </li>
     );
   }
@@ -57,11 +56,6 @@ class Budget extends React.Component {
       
     return (
       <React.Fragment>
-        <div>
-          <button onClick={() => {this.props.dispatch(navToBudgets())}}>
-            &lt; Alle Budgets
-          </button>
-        </div>
         <h3>{selectedBudget.name}</h3>
         <div className="budget-stats">
 					{renderStat({	
