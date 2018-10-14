@@ -7,6 +7,9 @@ import {
   ADD_ENTRY_TO_BUDGET,
   ADD_ENTRY_TO_BUDGET_SUCCESS,
   ADD_ENTRY_TO_BUDGET_FAILURE,
+  UPDATE_ENTRY_IN_BUDGET,
+  UPDATE_ENTRY_IN_BUDGET_SUCCESS,
+  UPDATE_ENTRY_IN_BUDGET_FAILURE,
 } from '../actions';
 
 let savedState = window.localStorage.getItem('state');
@@ -19,6 +22,8 @@ const defaultState = {
   loadingEntries: false,
   addEntry: false,
   addEntryInfo: null,
+  updateEntry: false,
+  updateEntryInfo: null,
   budgetId: null,
   failure: null,
   budgets: []
@@ -92,12 +97,42 @@ const data = (state = initialState, action) => {
         addEntryInfo: null,
         budgets: newBudgets
       };
-    }    
+    }
   case ADD_ENTRY_TO_BUDGET_FAILURE:
     return {
       ...state,
       addEntry: false,
       addEntryInfo: null
+    };
+  case UPDATE_ENTRY_IN_BUDGET:
+    return {
+      ...state,
+      updateEntry: true,
+      updateEntryInfo: action.payload
+    };
+  case UPDATE_ENTRY_IN_BUDGET_SUCCESS:
+    {
+      let changedBudget = action.payload.budget;
+      let budgets = state.budgets;
+      let index = budgets.findIndex(b => b.id === changedBudget.id);
+      let newBudgets = [
+        ...budgets.slice(0, index), 
+        changedBudget, 
+        ...budgets.slice(index + 1)
+      ];
+
+      return {
+        ...state,
+        updateEntry: false,
+        updateEntryInfo: null,
+        budgets: newBudgets
+      };
+    }
+  case UPDATE_ENTRY_IN_BUDGET_FAILURE:
+    return {
+      ...state,
+      updateEntry: false,
+      updateEntryInfo: null,
     };
   default:
     return state;
