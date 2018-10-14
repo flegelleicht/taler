@@ -6,7 +6,12 @@ import {
   ADD_ENTRY_TO_BUDGET_SUCCESS,
 } from '../actions';
 
-const initialState = {
+let savedState = window.localStorage.getItem('state');
+if (savedState) {
+  savedState = JSON.parse(savedState);
+  savedState = savedState.ui;
+}
+const initialState = savedState || {
   selectedBudgetId: null,
   display: 'budgets',
 }
