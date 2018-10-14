@@ -5,4 +5,5 @@
 /start.sh
 /ssl
 /frontend/package-lock.json
+*.swp
 
