@@ -1,6 +1,7 @@
 import {
   BUDGET_SELECT,
   NAVIGATE_TO_BUDGETS
+  NAVIGATE_TO_BUDGETENTERENTRY
 } from '../actions';
 
 const initialState = {
@@ -22,6 +23,11 @@ const ui = (state = initialState, action) => {
       selectedBudgetId: null,
       display: 'budgets'
     };
+  case NAVIGATE_TO_BUDGETENTERENTRY:
+    return {
+      ...state,
+      display: 'budget.enter'
+    }
   default:
     return state;
   }

@@ -17,6 +17,10 @@ class App extends Component {
     case 'budget':
       screen = <Budget />;
       break;
+    case 'budget.enter':
+      screen = <Budget />
+      break;
+          
     default:
       screen = null
       break;
